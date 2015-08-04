@@ -1,0 +1,174 @@
+---
+title: "Bipartite Networks"
+subtitle: "Nestedness and Modularity"
+author: "M.K. Lau (Harvard Forest, Harvard University)"
+date:
+output: ioslides_presentation
+
+
+---
+## Bipartite Networks
+<div class="incremental">
+
+> - What are they?
+> - What are they good for?
+> - How do I use them?
+
+</div>
+
+## Bipartite Networks: What are they?
+
+*Definition:* a network in which has two sets of nodes with edges
+ between and not within sets.
+
+
+## Bipartite Networks: What are they?
+
+
+## Bipartite Networks: What are they good for?
+
+*Bestiary of Bipartite Networks*
+
+* Plant-Pollinators
+* Plant-Herbivores
+* Plant-Seed Dispersers
+* Bats-Roosts
+* Host-Parasite
+* Genotype-Species
+
+## Bipartite Networks: What are they good for?
+
+> - Simplification (= ignore interactions within sets)
+> - Stability Theory (Jordano, Bascompte, Lever)
+
+## Bipartite Networks: What are they good for?
+
+*Nestedness* and *Modularity*
+
+## Bipartite Networks: How do I use them?
+
+Can you represent your network as two distinct sets?
+
+## Bipartite Networks: How do I use them?
+
+**bipartite**
+
+## "Hello, R!"
+
+> - Open-source
+> - Free!
+> - "Easy/Lazy" programming language
+
+## "Hello, R!"
+
+> - Packages
+> - CRAN
+> - GitHub
+
+## "Hello, R!"
+
+
+```{r }
+2+2
+
+```
+
+## "Hello, R!"
+
+
+```{r }
+four = 2 + 2
+
+```
+
+## "Hello, R!"
+
+
+```{r }
+four = 2 + 2
+
+print(four)
+
+```
+
+## "Hello, bipartite!"
+
+
+```{r }
+library(bipartite)
+
+```
+
+## bipartite: models
+
+Import/Load models using read.csv
+
+## bipartite: models
+
+
+<!-- ```{r } -->
+<!-- data(vazarr) -->
+<!-- write.csv(vazarr,file='../data/bipmodel.csv') -->
+
+<!-- ``` -->
+
+
+```{r }
+our.binet <- read.csv('../data/bipmodel.csv')
+
+```
+
+
+## bipartite: nestedness
+
+
+```{r }
+# binet.nest <- nestedness(our.binet)
+
+```
+
+## bipartite: nestedness
+
+```{r }
+binet.nest
+
+```
+
+## bipartite: nestedness
+
+```{r }
+plotweb(our.binet)
+
+```
+
+
+## bipartite: modularity
+
+```{r }
+# binet.mods <- computeModules(our.binet)
+
+```
+
+
+```{r }
+binet.mods
+
+```
+
+
+
+
+```{r }
+plotModuleWeb(binet.mods)
+
+```
+
+## What does it all mean?
+
+* Structural analysis with dynamic implications
+* Nestedness minimizes competition and facilitates diversity (Bascompte 2003)
+* Modularity stablizes through compartmentalization (Fortuna 2009)
+
+## Up Next!
+
+Ecosystem networks and *enaR*!
