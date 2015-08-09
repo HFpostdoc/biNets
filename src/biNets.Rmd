@@ -1,49 +1,86 @@
 ---
 title: "Bipartite Networks"
-subtitle: "Nestedness and Modularity"
+subtitle: "Structural Analyses"
 author: "M.K. Lau (Harvard Forest, Harvard University)"
 date:
 output: ioslides_presentation
-
+fig_caption: yes
 
 ---
+
 ## Bipartite Networks
-<div class="incremental">
 
-> - What are they?
-> - What are they good for?
-> - How do I use them?
+- What are they?
+- What are they good for?
+- How do I use them?
 
-</div>
 
 ## Bipartite Networks: What are they?
 
 *Definition:* a network in which has two sets of nodes with edges
  between and not within sets.
 
+## Bipartite Networks: What are they?
+
+```{r fig.width=7,fig.height=7,echo=FALSE,results='hide',fig.align='center'}
+img <- readPNG('../images/nest.png')
+grid.raster(img)
+
+```
 
 ## Bipartite Networks: What are they?
 
+```{r fig.width=5,fig.height=5,echo=FALSE,results='hide',fig.align='center'}
+img <- readPNG('../images/pollin.png')
+grid.raster(img)
 
-## Bipartite Networks: What are they good for?
+```
 
-*Bestiary of Bipartite Networks*
 
-* Plant-Pollinators
-* Plant-Herbivores
-* Plant-Seed Dispersers
-* Bats-Roosts
-* Host-Parasite
-* Genotype-Species
+## Bipartite Networks: What are they?
+
+```{r fig.width=7,fig.height=7,echo=FALSE,results='hide',fig.align='center'}
+img <- readPNG('../images/memmott.png')
+grid.raster(img)
+
+```
+
+
+## Bipartite Networks: What are they?
+
+```{r fig.width=5,fig.height=5,echo=FALSE,results='hide',fig.align='center'}
+require(png)
+img <- readPNG('../images/batRoost.png')
+grid.raster(img)
+
+```
+
+
+
+## mangal
+```{r fig.width=5,fig.height=5,echo=FALSE,results='hide',fig.align='center'}
+img <- readPNG('../images/mangal.png')
+grid.raster(img)
+
+```
+
+http://mangal.uqar.ca/doc/spec/
+
+http://biorxiv.org/content/biorxiv/early/2015/02/24/002634.full.pdf
 
 ## Bipartite Networks: What are they good for?
 
 > - Simplification (= ignore interactions within sets)
-> - Stability Theory (Jordano, Bascompte, Lever)
+> - Stability Theory 
+> - Limitations
 
-## Bipartite Networks: What are they good for?
+## Bipartite Networks: Limitations
 
-*Nestedness* and *Modularity*
+```{r fig.width=5,fig.height=5,echo=FALSE,results='hide',fig.align='center'}
+img <- readPNG('../images/tri.png')
+grid.raster(img)
+
+```
 
 ## Bipartite Networks: How do I use them?
 
@@ -66,7 +103,6 @@ Can you represent your network as two distinct sets?
 > - GitHub
 
 ## "Hello, R!"
-
 
 ```{r }
 2+2
@@ -103,6 +139,8 @@ library(bipartite)
 
 Import/Load models using read.csv
 
+**people.fas.harvard.edu/~matthewklau/bipmodel.csv**
+
 ## bipartite: models
 
 
@@ -121,16 +159,26 @@ our.binet <- read.csv('../data/bipmodel.csv')
 
 ## bipartite: nestedness
 
-
-```{r }
-# binet.nest <- nestedness(our.binet)
+```{r fig.width=5,fig.height=5,echo=FALSE,results='hide',fig.align='center'}
+img <- readPNG('../images/nest.png')
+grid.raster(img)
 
 ```
 
 ## bipartite: nestedness
 
-```{r }
-binet.nest
+
+```{r eval=FALSE}
+binet.nest <- nestedness(our.binet,null.models=FALSE)
+names(binet.nest)
+binet.nest$temperature
+
+```
+
+## bipartite: nestedness
+
+```{r eval=FALSE}
+binet.nest <- nestedness(our.binet,null.models=TRUE,n.nulls=10)
 
 ```
 
@@ -141,25 +189,46 @@ plotweb(our.binet)
 
 ```
 
-
 ## bipartite: modularity
 
-```{r }
-# binet.mods <- computeModules(our.binet)
+```{r fig.width=5,fig.height=5,echo=FALSE,results='hide',fig.align='center'}
+img <- readPNG('../images/batroost.png')
+grid.raster(img)
 
 ```
 
+## bipartite: modularity
 
-```{r }
+```{r eval=FALSE}
+binet.mods <- computeModules(our.binet)
+
+```
+
+```{r eval=FALSE}
 binet.mods
 
 ```
 
-
-
-
-```{r }
+```{r eval=FALSE}
 plotModuleWeb(binet.mods)
+
+```
+
+## bipartite: modularity
+
+
+```{r eval=FALSE}
+null.nets <- nullmodel(our.binet, N=3, method="r2d")
+
+```
+
+```{r eval=FALSE}
+null.mods <- lapply(null.nets,computeModules)
+
+```
+
+```{r eval=FALSE}
+lapply(null.mods,slot,name='likelihood')
 
 ```
 
@@ -167,8 +236,28 @@ plotModuleWeb(binet.mods)
 
 * Structural analysis with dynamic implications
 * Nestedness minimizes competition and facilitates diversity (Bascompte 2003)
-* Modularity stablizes through compartmentalization (Fortuna 2009)
+* Modularity stabilizes through compartmentalization (Fortuna 2009)
 
 ## Up Next!
 
 Ecosystem networks and *enaR*!
+
+## 
+
+## Connect: the R network world
+
+- *sna*
+- *network*
+- *statnet*
+- *igraph*
+- *graphviz*
+
+## Connect: enaR to EcoNet
+
+
+```{r }
+data(oyster)
+write.EcoNet(oyster,file='./oyster.txt',mn='ena_model_oyster')
+
+```
+
