@@ -88,7 +88,6 @@ Can you represent your network as two distinct sets?
 
 ## Bipartite Networks: How do I use them?
 
-**bipartite**
 
 ## "Hello, R!"
 
@@ -251,6 +250,7 @@ Ecosystem networks and *enaR*!
 - *statnet*
 - *igraph*
 - *graphviz*
+- *vegan*
 
 ## Connect: enaR to EcoNet
 
