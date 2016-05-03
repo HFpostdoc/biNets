@@ -1,12 +1,13 @@
----
+----
 title: "Bipartite Networks"
 subtitle: "Structural Analyses"
 author: "M.K. Lau (Harvard Forest, Harvard University)"
 date:
-output: ioslides_presentation
+output: md_document
 fig_caption: yes
+----
 
----
+
 
 
 ```{r echo=FALSE,results='hide'}
@@ -15,6 +16,7 @@ library(grid)
 
 ```
 
+-- 
 
 ## Bipartite Networks
 
@@ -22,6 +24,7 @@ library(grid)
 - What are they good for?
 - How do I use them?
 
+--
 
 ## Bipartite Networks: What are they?
 
