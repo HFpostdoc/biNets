@@ -1,344 +1,59 @@
-----
+---
 title: "Bipartite Networks"
 subtitle: "Structural Analyses"
 author: "M.K. Lau (Harvard Forest, Harvard University)"
 date:
-output: md_document
 fig_caption: yes
-----
+output: ioslides_presentation
+
+---
 
 
+## Structural Analysis
+
+- Degree
+- Nestedness
+- Modularity
 
 
-```{r echo=FALSE,results='hide'}
-library(png)
-library(grid)
+# Code
 
-```
-
--- 
-
-## Bipartite Networks
-
-- What are they?
-- What are they good for?
-- How do I use them?
-
---
-
-## Bipartite Networks: What are they?
-
-*Definition:* a network in which has two sets of nodes with edges
- between and not within sets.
-
-## Bipartite Networks: What are they?
-
-```{r fig.width=7,fig.height=7,echo=FALSE,results='hide',fig.align='center'}
-img <- readPNG('../images/nest.png')
-grid.raster(img)
-
-```
-
-## Bipartite Networks: What are they?
-
-```{r fig.width=5,fig.height=5,echo=FALSE,results='hide',fig.align='center'}
-img <- readPNG('../images/pollin.png')
-grid.raster(img)
-
-```
-
-
-## Bipartite Networks: What are they?
-
-```{r fig.width=7,fig.height=7,echo=FALSE,results='hide',fig.align='center'}
-img <- readPNG('../images/memmott.png')
-grid.raster(img)
-
-```
-
-
-## Bipartite Networks: What are they?
-
-```{r fig.width=5,fig.height=5,echo=FALSE,results='hide',fig.align='center'}
-require(png)
-img <- readPNG('../images/batRoost.png')
-grid.raster(img)
-
-```
-
-
-
-## mangal
-```{r fig.width=5,fig.height=5,echo=FALSE,results='hide',fig.align='center'}
-img <- readPNG('../images/mangal.png')
-grid.raster(img)
-
-```
-
-http://mangal.uqar.ca/doc/spec/
-
-http://biorxiv.org/content/biorxiv/early/2015/02/24/002634.full.pdf
-
-## Bipartite Networks: What are they good for?
-
-> - Simplification (= ignore interactions within sets)
-> - Stability Theory 
-> - Limitations
-
-## Bipartite Networks: Limitations
-
-```{r fig.width=5,fig.height=5,echo=FALSE,results='hide',fig.align='center'}
-img <- readPNG('../images/tri.png')
-grid.raster(img)
-
-```
-
-## Bipartite Networks: How do I use them?
-
-Can you represent your network as two distinct sets?
-
-## Bipartite Networks: How do I use them?
-
-
-## "Hello, R!"
-
-> - Open-source
-> - Free!
-> - "Easy/Lazy" programming language
-
-## "Hello, R!"
-
-> - Packages
-> - CRAN
-> - GitHub
-
-## "Hello, R!"
+## R
 
 ```{r }
-2+2
 
-```
-
-## "Hello, R!"
-
-
-```{r }
-four = 2 + 2
-
-```
-
-## "Hello, R!"
-
-
-```{r }
-four = 2 + 2
-
-print(four)
-
-```
-
-## "Hello, bipartite!"
-
-
-```{r }
 library(bipartite)
+library(enaR)
+data(Safariland)
 
 ```
 
-## bipartite: models
+# Statistical Analysis
 
-Import/Load models using read.csv
+## Statistical Analysis
 
-**people.fas.harvard.edu/~matthewklau/bipmodel.csv**
+- Null models
 
-## bipartite: models
+## Visualization 
 
+- Plotweb
+- Basic
+- Node coloring
+- Edge weigting
 
-<!-- ```{r } -->
-<!-- data(vazarr) -->
-<!-- write.csv(vazarr,file='../data/bipmodel.csv') -->
-
-<!-- ``` -->
-
-
-```{r }
-our.binet <- read.csv('../data/bipmodel.csv')
-
-```
+## Visualization
 
 
-## bipartite: nestedness
+```{r , echo=FALSE}
 
-```{r fig.width=5,fig.height=5,echo=FALSE,results='hide',fig.align='center'}
-img <- readPNG('../images/nest.png')
-grid.raster(img)
-
-```
-
-## bipartite: nestedness
-
-
-```{r eval=FALSE}
-binet.nest <- nestedness(our.binet,null.models=FALSE)
-names(binet.nest)
-binet.nest$temperature
-
-```
-
-## bipartite: nestedness
-
-```{r eval=FALSE}
-binet.nest <- nestedness(our.binet,null.models=TRUE,n.nulls=10)
-
-```
-
-## bipartite: nestedness
-
-```{r }
-plotweb(our.binet)
-
-```
-
-## bipartite: modularity
-
-```{r fig.width=5,fig.height=5,echo=FALSE,results='hide',fig.align='center'}
-img <- readPNG('../images/batroost.png')
-grid.raster(img)
-
-```
-
-## bipartite: modularity
-
-```{r eval=FALSE}
-binet.mods <- computeModules(our.binet)
-
-```
-
-```{r eval=FALSE}
-binet.mods
-
-```
-
-```{r eval=FALSE}
-plotModuleWeb(binet.mods)
-
-```
-
-## bipartite: modularity
-
-
-```{r eval=FALSE}
-null.nets <- nullmodel(our.binet, N=1000, method="r2d")
-
-```
-
-```{r eval=FALSE}
-null.mods <- lapply(null.nets,computeModules)
-
-```
-
-```{r eval=FALSE}
-null.mods <- lapply(null.mods,slot,name='likelihood')
+plotweb(Safariland)
 
 ```
 
 
-```{r echo=FALSE,results='hide'}
-null.mods <- rpois(1000,5)
-null.mods <- null.mods / (max(null.mods) * 10)
-obs.mods <- bnl <- 0.428000
 
-```
+## One-mode Projections
 
-## bipartite: modularity
-
-
-```{r fig.width=5,fig.height=5,echo=FALSE,fig.align='center'}
-hist(null.mods,xlim=c(0,0.5),ylim=c(0,500))
-abline(v=bnl,lty=2)
-text(bnl-0.028,250,labels='Observed Modularity',srt=90)
-
-```
-
-## bipartite: modularity
-Caclulate z-value and p-value for right-tailed test:
-
-
-```{r eval=FALSE}
-obs.mods <- slot(obs.mods,name='likelihood')
-
-```
-
-
-```{r eval=FALSE}
-null.mods <- unlist(null.mods)
-
-```
-
-```{r }
-z.val <- (obs.mods - mean(null.mods)) / sd(null.mods)
-z.val
-
-```
-
-
-```{r }
-p.val <- length(null.mods[null.mods >= obs.mods]) / length(null.mods)
-p.val
-
-```
-
-
-```{r fig.width=5,fig.height=5,echo=FALSE,fig.align='center'}
-hist(null.mods,xlim=c(0,0.5),ylim=c(0,500))
-abline(v=bnl,lty=2)
-text(bnl-0.028,250,labels='Observed Modularity',srt=90)
-
-```
-
-
-## What does it all mean?
-
-* Structural analysis with dynamic implications
-* Nestedness minimizes competition and facilitates diversity 
-* Modularity stabilizes through compartmentalization 
-
-## What does it all mean?
-
-Bascompte J. and Jordano P. 2014. [Mutualistic networks](http://press.princeton.edu/titles/10161.html). Prineton University Press.
-
-Fortuna M.A. et al. 2010. [Nestedness versus modularity in ecological networks: two sides of the same coin?](https://scholar.google.es/citations?view_op=view_citation&hl=en&user=Pvl3sY0AAAAJ&sortby=pubdate&citation_for_view=Pvl3sY0AAAAJ:9yKSN-GCB0IC). J. Anim. Ecol., 7:811-817.
-
-Gotelli N.J. and Ellison
-A.M. 2013. [Primer of Ecological Statistics](http://www.sinauer.com/a-primer-of-ecological-statistics.html). Sinauer
-Associates, Inc. 
-
-Bluthgen N. et al. 2008. [What do interaction network metrics tell us about specialization and biological traits?](http://tubiblio.ulb.tu-darmstadt.de/54492/). Ecology,
-89: 3387-3399.
-
-Fontaine et al. 2011. [Stability of ecological communities and the architecture of
-mutualistic and trophic networks](https://scholar.google.com/citations?view_op=view_citation&hl=fr&user=DWKgfuUAAAAJ&citation_for_view=DWKgfuUAAAAJ:Tyk-4Ss8FVUC). Ecol. Lett.,
-14: 1170-1181.
-
-## Connect: The R network world
-
-**Other Network Packages**
-
-- *sna*
-- *network*
-- *statnet*
-- *igraph*
-- *Rgraphviz*
-- *vegan*
-
-## Connect: enaR to EcoNet
-
-This function will right a network class model to a text file
-formatted for *EcoNet*.
-
-```{r eval=FALSE}
-data(oyster)
-write.EcoNet(oyster,file='./oyster.txt',mn='ena_model_oyster')
-
-```
+- X projection
+- Y projection
 

@@ -1,0 +1,9 @@
+title: "Bipartite Networks"
+subtitle: "Structural Analyses"
+author: "M.K. Lau (Harvard Forest, Harvard University)"
+date:
+fig_caption: yes
+
+
+
+
