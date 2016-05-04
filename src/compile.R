@@ -2,6 +2,8 @@
 
 library(rmarkdown)
 render('biNets.Rmd')
+system('open biNets.html')
+
 system('cleaver biNets.md')
 
 system('open biNets-cleaver.html')
