@@ -1,7 +1,7 @@
 ---
 title: "ISEM 2016: Ecological Network Analysis"
 author: "M.K. Lau (Harvard Forest, Harvard University)"
-date:
+date: Updated "`r format(Sys.time(), '%d %B %Y')`"
 fig_caption: yes
 output: ioslides_presentation
 
@@ -11,7 +11,11 @@ output: ioslides_presentation
 
 - Community ecology's gateway to ecological networks
 
-## Base Entitites
+<!-- Many of the tools were developed for community analyses. -->
+<!-- A good example of this is null models. -->
+
+
+## Base Quantities
 
 - *L*: number of realized links in a network
 - *I*: number of lower trophic
@@ -44,7 +48,19 @@ species i from the ower trophic level
 
 ## Weighted Indices
 
+- Nestedness (WINE)
 - Modularity
+- Generality
+- Vulnerability
+- Weighted Linkage Density
+- Interaction Evenness
+- Interaction Strength Asymmetry
+- Niche Overlap
+
+## Weighted Indices
+
+- **Nestedness** 
+- **Modularity**
 - Generality
 - Vulnerability
 - Weighted Linkage Density
@@ -54,144 +70,284 @@ species i from the ower trophic level
 
 
 
-# Introduction to enaR
+# Nestedness
 
-## Ecosystem Network Analysis
+## <!-- Nestedness -->
 
-## Extant Software
+![Nestedness: Packing Communities](../images/dolls_sm.jpg)
 
-## Getting Started
+## <!-- Nestedness -->
 
-## Ecosystem Network Model
+![Nestedness: Packing Communities](../images/nestf1_sm.jpg)
 
-## Model Construction
+## <!-- Nestedness -->
 
-## Network Data Class
+<!-- basic idea of measuring nestedness -->
+<!-- temperature -->
+<!-- isocline -->
+<!-- forbidden links -->
 
-## Building a Network Object
+![Measuring Nestedness: Many Metrics](../images/nestisocline_sm.jpg)
 
-## Generate the flow matrix
+## <!-- Nestedness -->
+![1. Ordering](../images/nestisocline_sm.jpg)
 
-## Name the nodes
+## <!-- Nestedness -->
+![2. Isocline](../images/nestisocline_sm.jpg)
 
-## Generate the inputs
-
-## Generate the exports
-
-## "Pack" the model into a network object
-
-## The model network object contents
-
-## Model Library
-## Import the model sets
-## Check the first few model names
-## Isolate a single model
-## Check out the model
-## Network Model Information
-
-## Network Visualization
-## Load data
-## Set the random seed to control plot output
-## Plot network data object (uses plot.network)
-## Set colors to use
-## Extract flow information for later use.
-## Get indices of positive flows
-## Set the random seed to control plot output
-## Scale nodes with storage
-## Add node labels
-## Make rounded nodes
-## Scale arrows to flow magnitude
-## Lastly, remove changes to the plotting parameters
-
-## Data Input: Reading Common Data File Formats
-## WAND
-## Write oyster reef model to a CSV file
-## Read in oyster reef model data from NEA.m formatted CSV file
-## of the information in the "oyster" data object.
-
-## Analyzing Ecosystem Models
-## Balancing for Steady-State
-## Check to see if the model is balanced
-## To BALANCE a model if needed
-## To FORCE BALANCE a model if needed
-
-## Structural Network Analysis
-
-## Flow Analysis
-## Output-oriented direct flow matrix
-## Input-oriented integral flow matrix
-
-## Ascendency
-## Storage Analysis
-## Utility Analysis
-## Environ Analysis
-## Control Analysis
-## Mixed Trophic Impacts
-## Cycle Analysis
-## The individual cycles
-## The disjoint nexuses
-
-## Trophic Aggregations
-## Cycle analysis output for Feeding Cycles
-
-## Other Analyses
-## Examine the structure of ns
-## Set plotting parameters
-## Find centrality order
-## Creating a barplot
-## Adding labels
+## <!-- Nestedness -->
+![3. Deviations](../images/nestisocline_sm.jpg)
 
 
-## Output Orientation
-## Check the current orientation
-## enaFlow output in row-column
-## Set the global orientation to school
-## Check that it worked
-## enaFlow output in column-row
-## Check. Outputs should be transposed from each other.
-## Now change back to the default orientation ('rc')
-
-## Multi-Model Analyses (Batch Processing)
-
-## Example Flow Analysis
-
-## Connecting to Other Useful Packages
-## network
-## sna: Social Network Analysis
-## Calculate betweenness centrality
-## Get vertex names
-## Exclude less central node names
-## labels of most central nodes
-## iGraph
-## The adjacency matrix
-## Creating an iGraph graph
-## Betweenness centrality (calculated by iGraph and sna)
-## Shortest path between any two nodes
-## Average path length in the network (graph theory sense)
-## Diameter of the graph
-## Connectivity of the gvertex.connectivity(g)  # connectivity of a graph (group cohesion)
-## Detach igraph package
-
-## EcoNet
-< write.EcoNet.R
-< read.EcoNet.R
-< EcoNetWeb.R
-
-## Bipartite connection
-< as.bipartite.R
-
-## Uncertainty
-< enaUncertainty.R
-
-## enaMTI and enaUtility
-< relationalChange.r
-< signs.r
-
-## new models
-< Chip's
-< Mouquet
-< Chen
+## Exercise: Play with matrix ordering
 
 
-## Conclusion
-## References
+## Exercise: Play with matrix ordering
+
+```{r , results='hide'}
+
+M <- c(rep(1,10),
+        c(rep(1,4),rep(0,6)),
+        c(rep(1,3),rep(0,7)),
+        c(rep(1,2),rep(0,8)),
+        rep(c(rep(1,1),rep(0,9)),6)
+         )
+M <- matrix(M,nrow=10)
+rownames(M) <- paste('P',1:10,sep='')
+colnames(M) <- paste('A',1:10,sep='')
+
+```
+
+## Exercise: Play with matrix ordering
+
+```{r }
+
+M
+
+```
+
+## Exercise: Play with matrix ordering
+
+```{r }
+
+M[sample(1:10,10),sample(1:10,10)]
+
+```
+
+
+## Exercise: Play with matrix ordering
+
+```{r }
+
+M[sample(1:10,10),sample(1:10,10)]
+
+```
+
+## Exercise: Play with matrix ordering
+
+```{r }
+
+M[sample(1:10,10),sample(1:10,10)]
+
+```
+
+## Testing for Nestedness
+
+- Calculate the nestedness for a given network
+- Choose an algorithm to shuffle
+- Shuffle the interactions
+- Calculate nestedness for the shuffled network
+- Repeat a lot, like thousands of times
+- Compare the observed to the "null" nestedness values
+
+## Testing for Nestedness
+
+```{r }
+obs <- 45
+null <- rnorm(1000,65,9)
+hist(null,main='')
+abline(v=obs)
+
+```
+
+## Testing for Nestedness
+
+```{r }
+z.score <- (obs - mean(null)) / sd(null)
+p.value <- length(null[null <= obs])/length(null)
+
+z.score
+p.value
+
+```
+
+
+## <!-- Nestedness -->
+
+![](../images/nesttab_sm.jpg)
+
+<!-- benchmarking! -->
+
+## Exercise: Nestedness Analysis
+
+```{r , results='hide'}
+
+library(bipartite)
+data(Safariland)
+Safariland
+
+```
+
+## Exercise: Nestedness Analysis
+
+```{r , echo=FALSE}
+
+Safariland
+
+```
+
+## Exercise: Nestedness Analysis
+
+```{r }
+
+plotweb(Safariland)
+
+```
+
+## Exercise: Nestedness Analysis
+
+```{r }
+
+plotweb(Safariland,text.rot=90)
+
+```
+
+## Exercise: Nestedness Analysis
+
+```{r }
+
+nested(Safariland)
+
+```
+
+## Exercise: Nestedness Analysis
+
+```{r }
+
+nested(Safariland,method='ALL')
+
+```
+
+## Exercise: Nestedness Analysis
+
+```{r }
+
+safari.nest <- nestedness(Safariland)
+names(safari.nest)
+
+```
+
+## Exercise: Nestedness Analysis
+
+```{r }
+
+unlist(safari.nest[c('temperature')])
+unlist(safari.nest[c('p.null1','p.null2','p.null3')])
+unlist(safari.nest[c('mean.temp.null1','mean.temp.null2','mean.temp.null3')])
+unlist(safari.nest[c('var.temp.null1','var.temp.null2','var.temp.null3')])
+
+```
+
+
+# Modularity
+
+## <!-- Modularity -->
+
+![Modularity: Eggs in Multiple Baskets](../images/eggs_sm.jpg)
+
+##
+
+![Nestedness Revisited](../images/nestf1_sm.jpg)
+
+##
+
+![Nestedness Revisited](../images/dolls_sm.jpg)
+
+
+## <!-- Modularity -->
+
+![Modularity: Eggs in Multiple Baskets](../images/eggs_sm.jpg)
+
+## <!-- Modularity -->
+
+![Modularity: Eggs in Multiple Baskets](../images/nestf2_sm.jpg)
+
+## Modularity
+
+```{r , echo=FALSE,results='hide'}
+
+if (!(('safari.mods') %in% ls())){safari.mods <- computeModules(Safariland)}
+
+```
+
+```{r , eval=FALSE,results='hide'}
+
+safari.mods <- computeModules(Safariland)
+
+```
+
+
+## Modularity
+
+```{r }
+plotModuleWeb(safari.mods)
+
+```
+
+## Testing Modularity
+
+```{r , echo=FALSE, results='hide'}
+null.nets <- lapply(1:5,commsimulator,x=Safariland,method='r1')
+if (!('null.mods' %in% ls())){null.mods <- lapply(null.nets,computeModules)}
+null.stats <- lapply(null.mods,function(x) slot(x,'likelihood'))
+null.stats <- unlist(null.stats)
+
+```
+
+
+```{r , eval=FALSE}
+null.nets <- lapply(1:5,commsimulator,x=Safariland,method='r1')
+null.mods <- lapply(null.nets,computeModules)
+null.stats <- lapply(null.mods,function(x) slot(x,'likelihood'))
+null.stats <- unlist(null.stats)
+
+```
+
+## Testing Modularity
+
+```{r }
+obs.mods <- slot(safari.mods,'likelihood')
+null.mu <- mean(null.stats)
+null.sd <- sd(null.stats)
+null.z <- (obs.mods - null.mu) / null.sd
+null.p <- length(null.stats[null.stats <= obs.mods])/length(null.stats)
+null.z
+null.p
+
+```
+
+## <!-- two sides -->
+
+![Nested and Modules](../images/nestfcombo_sm.jpg)
+
+## Further reading on bipartite network analysis
+
+- General: https://goedoc.uni-goettingen.de/goescholar/bitstream/handle/1/5837/Dormann.pdf?sequence=1
+- Nestedness: https://www.uvm.edu/~ngotelli/manuscriptpdfs/UlrichConsumersGuide.pdf
+- Modularity: http://arxiv.org/pdf/1304.3218.pdf
+- Null Models: https://www.uvm.edu/~ngotelli/manuscriptpdfs/UlrichEcology.pdf
+- Mutualistic Networks: http://press.princeton.edu/titles/10161.html
+
+
+ 
+
