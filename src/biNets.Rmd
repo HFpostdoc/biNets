@@ -1,11 +1,13 @@
 ---
-title: "ISEM 2016: Ecological Network Analysis"
+title: "ISEM 2016: Ecological Network Analysis Workshop"
+subtitle: "Bipartite Networks"
 author: "M.K. Lau (Harvard Forest, Harvard University)"
 date: Updated "`r format(Sys.time(), '%d %B %Y')`"
 fig_caption: yes
-output: ioslides_presentation
+output: html_document
 
----
+--- 
+
 
 # Bipartite Networks
 
@@ -14,6 +16,27 @@ output: ioslides_presentation
 <!-- Many of the tools were developed for community analyses. -->
 <!-- A good example of this is null models. -->
 
+## Bipartite Networks
+
+Examples:
+
+- Plant Pollinator
+- Plant Herbivore
+- Plant Parasite
+
+## Advantage and Limitation
+
+- Simple, provides a theoretical framework
+- Simple, a sub-set of the entire network
+
+## Individuals 
+
+- Bat Roost
+
+## Genetic Networks
+
+- Know the genotype, know the individual (for the most part, Bailey et
+  al. 2012)
 
 ## Base Quantities
 
@@ -104,7 +127,7 @@ species i from the ower trophic level
 
 ## Exercise: Play with matrix ordering
 
-```{r , results='hide'}
+```{r 1, results='hide'}
 
 M <- c(rep(1,10),
         c(rep(1,4),rep(0,6)),
@@ -120,7 +143,7 @@ colnames(M) <- paste('A',1:10,sep='')
 
 ## Exercise: Play with matrix ordering
 
-```{r }
+```{r 2}
 
 M
 
@@ -128,7 +151,7 @@ M
 
 ## Exercise: Play with matrix ordering
 
-```{r }
+```{r 3}
 
 M[sample(1:10,10),sample(1:10,10)]
 
@@ -137,7 +160,7 @@ M[sample(1:10,10),sample(1:10,10)]
 
 ## Exercise: Play with matrix ordering
 
-```{r }
+```{r 4}
 
 M[sample(1:10,10),sample(1:10,10)]
 
@@ -145,7 +168,7 @@ M[sample(1:10,10),sample(1:10,10)]
 
 ## Exercise: Play with matrix ordering
 
-```{r }
+```{r 5}
 
 M[sample(1:10,10),sample(1:10,10)]
 
@@ -162,7 +185,7 @@ M[sample(1:10,10),sample(1:10,10)]
 
 ## Testing for Nestedness
 
-```{r }
+```{r 6}
 obs <- 45
 null <- rnorm(1000,65,9)
 hist(null,main='')
@@ -172,7 +195,7 @@ abline(v=obs)
 
 ## Testing for Nestedness
 
-```{r }
+```{r 7}
 z.score <- (obs - mean(null)) / sd(null)
 p.value <- length(null[null <= obs])/length(null)
 
@@ -190,7 +213,7 @@ p.value
 
 ## Exercise: Nestedness Analysis
 
-```{r , results='hide'}
+```{r 8, results='hide'}
 
 library(bipartite)
 data(Safariland)
@@ -200,7 +223,7 @@ Safariland
 
 ## Exercise: Nestedness Analysis
 
-```{r , echo=FALSE}
+```{r 9, echo=FALSE}
 
 Safariland
 
@@ -208,7 +231,7 @@ Safariland
 
 ## Exercise: Nestedness Analysis
 
-```{r }
+```{r 10}
 
 plotweb(Safariland)
 
@@ -216,7 +239,7 @@ plotweb(Safariland)
 
 ## Exercise: Nestedness Analysis
 
-```{r }
+```{r 11}
 
 plotweb(Safariland,text.rot=90)
 
@@ -224,7 +247,7 @@ plotweb(Safariland,text.rot=90)
 
 ## Exercise: Nestedness Analysis
 
-```{r }
+```{r 12}
 
 nested(Safariland)
 
@@ -232,7 +255,7 @@ nested(Safariland)
 
 ## Exercise: Nestedness Analysis
 
-```{r }
+```{r 13}
 
 nested(Safariland,method='ALL')
 
@@ -240,7 +263,7 @@ nested(Safariland,method='ALL')
 
 ## Exercise: Nestedness Analysis
 
-```{r }
+```{r 14}
 
 safari.nest <- nestedness(Safariland)
 names(safari.nest)
@@ -249,7 +272,7 @@ names(safari.nest)
 
 ## Exercise: Nestedness Analysis
 
-```{r }
+```{r 15}
 
 unlist(safari.nest[c('temperature')])
 unlist(safari.nest[c('p.null1','p.null2','p.null3')])
@@ -284,13 +307,13 @@ unlist(safari.nest[c('var.temp.null1','var.temp.null2','var.temp.null3')])
 
 ## Modularity
 
-```{r , echo=FALSE,results='hide'}
+```{r 16, echo=FALSE,results='hide'}
 
 if (!(('safari.mods') %in% ls())){safari.mods <- computeModules(Safariland)}
 
 ```
 
-```{r , eval=FALSE,results='hide'}
+```{r 17, eval=FALSE,results='hide'}
 
 safari.mods <- computeModules(Safariland)
 
@@ -299,14 +322,14 @@ safari.mods <- computeModules(Safariland)
 
 ## Modularity
 
-```{r }
+```{r 18}
 plotModuleWeb(safari.mods)
 
 ```
 
 ## Testing Modularity
 
-```{r , echo=FALSE, results='hide'}
+```{r 19, echo=FALSE, results='hide'}
 null.nets <- lapply(1:5,commsimulator,x=Safariland,method='r1')
 if (!('null.mods' %in% ls())){null.mods <- lapply(null.nets,computeModules)}
 null.stats <- lapply(null.mods,function(x) slot(x,'likelihood'))
@@ -315,7 +338,7 @@ null.stats <- unlist(null.stats)
 ```
 
 
-```{r , eval=FALSE}
+```{r 20, eval=FALSE}
 null.nets <- lapply(1:5,commsimulator,x=Safariland,method='r1')
 null.mods <- lapply(null.nets,computeModules)
 null.stats <- lapply(null.mods,function(x) slot(x,'likelihood'))
@@ -325,7 +348,7 @@ null.stats <- unlist(null.stats)
 
 ## Testing Modularity
 
-```{r }
+```{r 21}
 obs.mods <- slot(safari.mods,'likelihood')
 null.mu <- mean(null.stats)
 null.sd <- sd(null.stats)
