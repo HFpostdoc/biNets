@@ -4,7 +4,8 @@ subtitle: "Bipartite Networks"
 author: "M.K. Lau (Harvard Forest, Harvard University)"
 date: Updated "`r format(Sys.time(), '%d %B %Y')`"
 fig_caption: yes
-output: html_document
+<!-- output: html_document -->
+output: ioslides_presentation
 
 --- 
 
