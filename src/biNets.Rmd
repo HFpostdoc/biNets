@@ -19,6 +19,27 @@ output: ioslides_presentation
 
 ## Bipartite Networks
 
+
+```{r , echo=FALSE,results='hide'}
+
+m <- matrix(c(1,1,1,1,1,0,1,1,0,1,0,0,1,0,0),nrow=5,byrow=TRUE)
+rownames(m) <- paste('sp',1:nrow(m),sep='')
+colnames(m) <- paste('sp',1:ncol(m),sep='')
+m
+
+```
+
+## Bipartite Networks
+
+
+```{r , echo=FALSE,results='hide'}
+library(bipartite)
+plotweb(m)
+
+```
+
+## Bipartite Networks
+
 Examples:
 
 - Plant Pollinator
