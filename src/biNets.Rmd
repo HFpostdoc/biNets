@@ -19,20 +19,31 @@ output: ioslides_presentation
 
 ## Bipartite Networks
 
-
-```{r , echo=FALSE,results='hide'}
+```{r , results='asis', echo=FALSE,fig.cap=FALSE}
 
 m <- matrix(c(1,1,1,1,1,0,1,1,0,1,0,0,1,0,0),nrow=5,byrow=TRUE)
-rownames(m) <- paste('sp',1:nrow(m),sep='')
+rownames(m) <- paste('site',1:nrow(m),sep='')
 colnames(m) <- paste('sp',1:ncol(m),sep='')
-m
+knitr::kable(m)
 
 ```
 
 ## Bipartite Networks
 
 
-```{r , echo=FALSE,results='hide'}
+```{r , results='asis', echo=FALSE,fig.cap=FALSE}
+
+m <- matrix(c(1,1,1,1,1,0,1,1,0,1,0,0,1,0,0),nrow=5,byrow=TRUE)
+rownames(m) <- paste('sp',1:nrow(m),sep='')
+colnames(m) <- paste('sp',1:ncol(m),sep='')
+knitr::kable(m)
+
+```
+
+## Bipartite Networks
+
+
+```{r , echo=FALSE}
 library(bipartite)
 plotweb(m)
 
@@ -46,14 +57,22 @@ Examples:
 - Plant Herbivore
 - Plant Parasite
 
+## 
+
+![Mutualistic Networks (Bascompte and Jordano 2014)](../images/mutualistic.jpg)
+
+## Individuals 
+
+## 
+
+![Genotype-Species (Lau et al. 2016)](../images/gsn.jpg)
+
 ## Advantage and Limitation
 
 - Simple, provides a theoretical framework
 - Simple, a sub-set of the entire network
 
-## Individuals 
 
-- Bat Roost
 
 ## Genetic Networks
 
@@ -72,7 +91,7 @@ species (e.g. pollinators, parasitoids)
 species j from the higher trophic level, also referred as “link
 weight” 
 - $A_i$ ($\sum_{j=1}^J a_{ij}$): total number of interactions of
-species i from the ower trophic level
+species i from the lower trophic level
 - $A_j$ ($\sum_{i=1}^I a_{ij}$): total number of interactions of species j from the higher
   trophic level
 

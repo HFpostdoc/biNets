@@ -1,3 +1,24 @@
+## ---- results='asis', echo=FALSE,fig.cap=FALSE---------------------------
+
+m <- matrix(c(1,1,1,1,1,0,1,1,0,1,0,0,1,0,0),nrow=5,byrow=TRUE)
+rownames(m) <- paste('site',1:nrow(m),sep='')
+colnames(m) <- paste('sp',1:ncol(m),sep='')
+knitr::kable(m)
+
+
+## ---- results='asis', echo=FALSE,fig.cap=FALSE---------------------------
+
+m <- matrix(c(1,1,1,1,1,0,1,1,0,1,0,0,1,0,0),nrow=5,byrow=TRUE)
+rownames(m) <- paste('sp',1:nrow(m),sep='')
+colnames(m) <- paste('sp',1:ncol(m),sep='')
+knitr::kable(m)
+
+
+## ---- echo=FALSE---------------------------------------------------------
+library(bipartite)
+plotweb(m)
+
+
 ## ----1, results='hide'---------------------------------------------------
 
 M <- c(rep(1,10),
