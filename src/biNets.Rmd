@@ -17,7 +17,16 @@ output: ioslides_presentation
 <!-- Many of the tools were developed for community analyses. -->
 <!-- A good example of this is null models. -->
 
-## Bipartite Networks
+# Bipartite Networks: Community ecology's gateway to ecological networks
+
+- Bipartite: a network of interacting organisms where interactions are represented only between two distinct groups and not within these two groups.
+- 
+
+
+
+## Bipartite Networks from Community Matrices
+
+Community Matrix = Occurrences (Sites x Species)
 
 ```{r , results='asis', echo=FALSE,fig.cap=FALSE}
 
@@ -28,20 +37,20 @@ knitr::kable(m)
 
 ```
 
-## Bipartite Networks
+## Bipartite Networks from Community Matrices
 
+Bipartite Network = Interactions (Species x Species)
 
 ```{r , results='asis', echo=FALSE,fig.cap=FALSE}
 
 m <- matrix(c(1,1,1,1,1,0,1,1,0,1,0,0,1,0,0),nrow=5,byrow=TRUE)
 rownames(m) <- paste('sp',1:nrow(m),sep='')
-colnames(m) <- paste('sp',1:ncol(m),sep='')
+colnames(m) <- paste('sp',(nrow(m)+1):(ncol(m)+nrow(m)),sep='')
 knitr::kable(m)
 
 ```
 
 ## Bipartite Networks
-
 
 ```{r , echo=FALSE}
 library(bipartite)
@@ -57,27 +66,45 @@ Examples:
 - Plant Herbivore
 - Plant Parasite
 
+
+
 ## 
 
 ![Mutualistic Networks (Bascompte and Jordano 2014)](../images/mutualistic.jpg)
 
 ## Individuals 
 
+- In reality, interactions occur among individuals
+
+## Individuals <-> Genotype <-> Species
+
+Genotype or other genetic clustering information can help to bridge
+the gap between looking at interactions among all individuals and
+integrating to the species level.
+
 ## 
 
 ![Genotype-Species (Lau et al. 2016)](../images/gsn.jpg)
 
-## Advantage and Limitation
+## In general, Bipartite Networks
 
-- Simple, provides a theoretical framework
-- Simple, a sub-set of the entire network
+- Advantage: Provides a theoretical framework that provides mechanistic
+  hypotheses for stability
+- Limitation: a sub-set of the entire community and interactions
 
+## Bipartite Network Analysis
 
+The following notes focus on using the <tt>bipartite</tt> package for
+analysis and draws directly from this paper:
 
-## Genetic Networks
+![Dormann, C.F., Fruend, J., Bluethgen, N. & Gruber B. 2009. Indices, graphs and null models: analyzing bipartite ecological networks. The Open Ecology Journal, 2, 7-24.](https://goedoc.uni-goettingen.de/goescholar/bitstream/handle/1/5837/Dormann.pdf?sequence=1)
 
-- Know the genotype, know the individual (for the most part, Bailey et
-  al. 2012)
+## Bipartite Network Metrics
+
+- There are many ways to look at a bipartite network
+- These metrics can be categorized into metrics derived directly from
+  the network graph information (base quantities) and metrics that combine the lower
+  level metrics together (higher order indices)
 
 ## Base Quantities
 
@@ -95,7 +122,7 @@ species i from the lower trophic level
 - $A_j$ ($\sum_{i=1}^I a_{ij}$): total number of interactions of species j from the higher
   trophic level
 
-## Indices (Unweighted)
+## Higher Indices (Unweighted)
 
 - Links per Species
 - Connectance
@@ -110,7 +137,7 @@ species i from the lower trophic level
 - V-Ratio
 - Nestedness
 
-## Weighted Indices
+## Higher Indices (Weighted)
 
 - Nestedness (WINE)
 - Modularity
@@ -121,17 +148,12 @@ species i from the lower trophic level
 - Interaction Strength Asymmetry
 - Niche Overlap
 
-## Weighted Indices
+## 
+
+The main focus of bipartite ecological networks has been:
 
 - **Nestedness** 
 - **Modularity**
-- Generality
-- Vulnerability
-- Weighted Linkage Density
-- Interaction Evenness
-- Interaction Strength Asymmetry
-- Niche Overlap
-
 
 
 # Nestedness
@@ -139,6 +161,16 @@ species i from the lower trophic level
 ## <!-- Nestedness -->
 
 ![Nestedness: Packing Communities](../images/dolls_sm.jpg)
+
+## <!-- Nestedness -->
+
+Nestedness is the tendancy for interactions in communities to be
+organized such that species with fewer interactions interact with
+subsets of species with more interactions.
+
+This is suggested to facilitate community stability by decreasing
+competition for resources and optimizing the redundancy of
+interactions. 
 
 ## <!-- Nestedness -->
 
@@ -223,6 +255,15 @@ M[sample(1:10,10),sample(1:10,10)]
 - Calculate nestedness for the shuffled network
 - Repeat a lot, like thousands of times
 - Compare the observed to the "null" nestedness values
+
+## This is a general recipe for bipartite network analysis
+
+- Calculate the **metric** for a given network
+- Choose an algorithm to shuffle
+- Shuffle the interactions
+- Calculate **metric** for the shuffled network
+- Repeat a lot, like thousands of times
+- Compare the observed to the "null" **metric** values
 
 ## Testing for Nestedness
 
@@ -329,18 +370,25 @@ unlist(safari.nest[c('var.temp.null1','var.temp.null2','var.temp.null3')])
 
 ![Modularity: Eggs in Multiple Baskets](../images/eggs_sm.jpg)
 
-##
+## Nestedness and Modularity: measure interaction structure
 
 ![Nestedness Revisited](../images/nestf1_sm.jpg)
 
-##
+## Nestedness and Modularity: measure interaction structure
 
 ![Nestedness Revisited](../images/dolls_sm.jpg)
 
-
-## <!-- Modularity -->
+## Modularity: Eggs in Multiple Baskets
 
 ![Modularity: Eggs in Multiple Baskets](../images/eggs_sm.jpg)
+
+## Modularity: Eggs in Multiple Baskets
+
+- Modularity: the tendancy of species to interact more within than
+between groups that are subsets of the entire community
+- This is thought to stabilize communities by restricting the impact
+  of disturbances within groups and preventing cascading effects
+  throughout the larger community
 
 ## <!-- Modularity -->
 
@@ -411,7 +459,3 @@ null.p
 - Modularity: http://arxiv.org/pdf/1304.3218.pdf
 - Null Models: https://www.uvm.edu/~ngotelli/manuscriptpdfs/UlrichEcology.pdf
 - Mutualistic Networks: http://press.princeton.edu/titles/10161.html
-
-
- 
-
