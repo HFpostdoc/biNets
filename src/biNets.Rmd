@@ -459,3 +459,4 @@ null.p
 - Modularity: http://arxiv.org/pdf/1304.3218.pdf
 - Null Models: https://www.uvm.edu/~ngotelli/manuscriptpdfs/UlrichEcology.pdf
 - Mutualistic Networks: http://press.princeton.edu/titles/10161.html
+- Null Models: http://deploy.extras.ufg.br/projetos/adrimelo/div/Gotelli2000-NullModels.pdf

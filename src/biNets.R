@@ -10,7 +10,7 @@ knitr::kable(m)
 
 m <- matrix(c(1,1,1,1,1,0,1,1,0,1,0,0,1,0,0),nrow=5,byrow=TRUE)
 rownames(m) <- paste('sp',1:nrow(m),sep='')
-colnames(m) <- paste('sp',1:ncol(m),sep='')
+colnames(m) <- paste('sp',(nrow(m)+1):(ncol(m)+nrow(m)),sep='')
 knitr::kable(m)
 
 
